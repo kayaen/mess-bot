@@ -21,6 +21,24 @@ ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
 VERIFY_TOKEN = os.environ['VERIFY_TOKEN']
 bot = Bot(ACCESS_TOKEN)
 
+def find_songName(keyW):
+    # define empty list
+    names = []
+    # open file and read the content in a list
+    with open('listfile.txt', 'r') as filehandle:  
+        names = [current_place.rstrip() for current_place in filehandle.readlines()]
+    
+    indx = 0
+    for name in names:
+        if does_contain_words(name,keyW):
+            print('Song No: ' + str(indx) + ': '+ name)
+        indx += 1
+
+def does_contain_words(sentence, wordsToCheck):
+    if wordsToCheck in sentence:
+        return True
+    return False    
+    
 #We will receive messages that Facebook sends our bot at this endpoint 
 @app.route("/", methods=['GET', 'POST'])
 def receive_message():
@@ -61,7 +79,7 @@ def verify_fb_token(token_sent):
 
 #chooses a random message to send to the user
 def get_message():
-    sample_responses = ["You are stunning!", "We're proud of you.", "Keep on being you!", "We're greatful to know you :)"]
+    sample_responses = ["You \n\nare  \nstunning &nbsp", "We're  \n\nproud of you.", "Keep on being you!", "We're greatful to know you :)"]
     # return selected item to the user
     return random.choice(sample_responses)
 
