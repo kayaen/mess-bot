@@ -28,11 +28,15 @@ def find_songName(keyW):
     with open('listfile.txt', 'r') as filehandle:  
         names = [current_place.rstrip() for current_place in filehandle.readlines()]
     
+    foundedSongs =[]
     indx = 0
     for name in names:
         if does_contain_words(name,keyW):
-            print('Song No: ' + str(indx) + ': '+ name)
+            #print('Song No: ' + str(indx) + ': '+ name)
+            foundedSongs.append('Song No: ' + str(indx) + ': '+ name + '\n')
         indx += 1
+    
+    return str(foundedSongs)
 
 def does_contain_words(sentence, wordsToCheck):
     if wordsToCheck in sentence:
@@ -58,9 +62,11 @@ def receive_message():
                 #Facebook Messenger ID for user so we know where to send response back to
                 recipient_id = message['sender']['id']
                 if message['message'].get('text'):
-                    response_sent_text = message['message']['text']
+                    #response_sent_text = message['message']['text']
+                    response_sent_text = find_songName(message['message']['text'])
                     #response_sent_text = get_message()
                     send_message(recipient_id, response_sent_text)
+                    
                 #if user sends us a GIF, photo,video, or any other non-text item
                 if message['message'].get('attachments'):
                     response_sent_nontext = get_message()
