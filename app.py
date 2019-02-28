@@ -25,7 +25,7 @@ def find_songName(keyW):
     # define empty list
     names = []
     # open file and read the content in a list
-    with open('listfile.txt', 'r') as filehandle:  
+    with open('https://raw.githubusercontent.com/kayaen/mess-bot/master/listfile.txt', 'r') as filehandle:  
         names = [current_place.rstrip() for current_place in filehandle.readlines()]
     
     foundedSongs =[]
