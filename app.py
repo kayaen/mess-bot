@@ -13,7 +13,7 @@ in any messages that the bot receives and echos it back.
 #Python libraries that we need to import for our bot
 import random
 from flask import Flask, request
-from pymessenger.bot import Bot
+from pymessenger2.bot import Bot
 import os
 import urllib
 
