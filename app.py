@@ -66,7 +66,6 @@ def receive_message():
             if message.get('message'):
                 #Facebook Messenger ID for user so we know where to send response back to
                 recipient_id = message['sender']['id']
-                bot.send_action(recipient_id,'typing_on')
                 if message['message'].get('text'):
                     #response_sent_text = message['message']['text']
                     response_sent_text = find_songName(message['message']['text'])
@@ -78,6 +77,7 @@ def receive_message():
                     
                 #if user sends us a GIF, photo,video, or any other non-text item
                 if message['message'].get('attachments'):
+                    bot.send_action(recipient_id,'typing_on')
                     response_sent_nontext = get_message()
                     send_message(recipient_id, response_sent_nontext)
                     #bot.send_attachment_url(recipient_id, message['message']['attachment']['type'], message['message']['attachment']['payload']['url'])
