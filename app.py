@@ -76,7 +76,8 @@ def receive_message():
                 if message['message'].get('attachments'):
                     #user_info = bot.get_user_info(recipient_id)
                     #send_message(recipient_id, str(user_info))
-                    #bot.send_action(recipient_id,'typing_on')
+                    bot.send_action(recipient_id,'typing_on')
+                    
                     response_sent_nontext = get_message()
                     send_message(recipient_id, response_sent_nontext)
                     #bot.send_attachment_url(recipient_id, message['message']['attachment']['type'], message['message']['attachment']['payload']['url'])
