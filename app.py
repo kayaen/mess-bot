@@ -28,7 +28,7 @@ def find_songName(keyW):
     # open file and read the content in a list
     data = urllib.request.urlopen("https://raw.githubusercontent.com/kayaen/mess-bot/master/listfile.txt") # it's a file like object and works just like a file
     for line in data: # files are iterable
-        names.append(str(line))
+        names.append(line.title().decode('latin-1'))
     
  #   with open('listfile.txt', 'r') as filehandle:  
  #       names = [current_place.rstrip() for current_place in filehandle.readlines()]
