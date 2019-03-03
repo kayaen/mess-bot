@@ -15,6 +15,7 @@ import random
 from flask import Flask, request
 from pymessenger.bot import Bot
 import os
+import urllib
 
 app = Flask(__name__)
 ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
@@ -25,8 +26,12 @@ def find_songName(keyW):
     # define empty list
     names = []
     # open file and read the content in a list
-    with open('https://raw.githubusercontent.com/kayaen/mess-bot/master/listfile.txt', 'r') as filehandle:  
-        names = [current_place.rstrip() for current_place in filehandle.readlines()]
+    data = urllib.request.urlopen("https://raw.githubusercontent.com/kayaen/mess-bot/master/listfile.txt") # it's a file like object and works just like a file
+    for line in data: # files are iterable
+        names.append(str(line))
+    
+ #   with open('listfile.txt', 'r') as filehandle:  
+ #       names = [current_place.rstrip() for current_place in filehandle.readlines()]
     
     foundedSongs =[]
     indx = 0
@@ -62,8 +67,8 @@ def receive_message():
                 #Facebook Messenger ID for user so we know where to send response back to
                 recipient_id = message['sender']['id']
                 if message['message'].get('text'):
-                    response_sent_text = message['message']['text']
-                    #response_sent_text = find_songName(message['message']['text'])
+                    #response_sent_text = message['message']['text']
+                    response_sent_text = find_songName(message['message']['text'])
                     #response_sent_text = get_message()
                     send_message(recipient_id, response_sent_text)
                     
@@ -85,7 +90,7 @@ def verify_fb_token(token_sent):
 
 #chooses a random message to send to the user
 def get_message():
-    sample_responses = ["You \n\nare  \nstunning &nbsp", "We're  \n\nproud of you.", "Keep on being you!", "We're greatful to know you :)"]
+    sample_responses = ["You \n\nare  \nstunning", "We're  \n\nproud of you.", "Keep\n on being you!", "We'\nre greatful to know you\n :)"]
     # return selected item to the user
     return random.choice(sample_responses)
 
