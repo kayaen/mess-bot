@@ -41,10 +41,10 @@ def find_songName(keyW):
             foundedSongs.append('Song No: ' + str(indx) + ': '+ name + '\n')
         indx += 1
     
-    return str(foundedSongs)
+    return ''.join(foundedSongs)
 
 def does_contain_words(sentence, wordsToCheck):
-    if wordsToCheck in sentence:
+    if wordsToCheck.lower() in sentence.lower():
         return True
     return False    
     
