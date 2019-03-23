@@ -14,6 +14,7 @@ in any messages that the bot receives and echos it back.
 import random
 from flask import Flask, request
 from pymessenger3.bot import Bot
+from pymessenger3 import Button
 import os
 import urllib
 
@@ -67,10 +68,22 @@ def receive_message():
                 #Facebook Messenger ID for user so we know where to send response back to
                 recipient_id = message['sender']['id']
                 if message['message'].get('text'):
-                    #response_sent_text = message['message']['text']
-                    response_sent_text = find_songName(message['message']['text'])
-                    #response_sent_text = get_message()
-                    send_message(recipient_id, response_sent_text)
+                    if 'hi' == message['message']['text'].lower():
+                        buttons = []
+                        button = Button(title='Arsenal', type='web_url', url='http://arsenal.com')
+                        buttons.append(button)
+                        button = Button(title='Other', type='postback', payload='other')
+                        buttons.append(button)
+                        text = 'Select'
+                        result = bot.send_button_message(recipient_id, text, buttons)
+                        assert type(result) is dict
+                        assert result.get('message_id') is not None
+                        assert result.get('recipient_id') is not None
+                    else:
+                        #response_sent_text = message['message']['text']
+                        response_sent_text = find_songName(message['message']['text'])
+                        #response_sent_text = get_message()
+                        send_message(recipient_id, response_sent_text)
                     
                 #if user sends us a GIF, photo,video, or any other non-text item
                 if message['message'].get('attachments'):
