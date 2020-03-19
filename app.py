@@ -79,6 +79,12 @@ def receive_message():
                         assert type(result) is dict
                         assert result.get('message_id') is not None
                         assert result.get('recipient_id') is not None
+                    elif 'w' == message['message']['text'].lower():
+                        tx = """<p>A maré, a maré, me leva ao céu
+                        A maré, a maré, me leva ao céu</p>
+                        <p><strong>A maré, a maré, me leva ao céu
+                        A maré, a maré, me leva ao céu</strong></p>"""
+                        send_message(recipient_id, tx)                        
                     else:
                         #response_sent_text = message['message']['text']
                         response_sent_text = find_songName(message['message']['text'])
