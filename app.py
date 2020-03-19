@@ -88,8 +88,9 @@ def receive_message():
 #                        tx = tx.replace('</p>','_')
 #                        tx = tx.replace('<strong>','*')
 #                        tx = tx.replace('</strong>','*')
-                        uu = 'http://capoeiralyrics.info/songs/a-mare-a-mare.html'
 #                        send_message(recipient_id, tx)                        
+                        text = 'Select'                        
+                        uu = 'http://capoeiralyrics.info/songs/a-mare-a-mare.html'
                         button = Button(title='Arsenal', type='web_url', url=uu)
                         result = bot.send_button_message(recipient_id, text, button)
                         assert type(result) is dict
