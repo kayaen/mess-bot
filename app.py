@@ -87,7 +87,7 @@ def receive_message():
                     
                 #if user sends us a GIF, photo,video, or any other non-text item
                 if message['message'].get('attachments'):
-                    user_info = bot.get_user_info(recipient_id)
+                    user_info = 'no attachment!!!'#bot.get_user_info(recipient_id)
                     send_message(recipient_id, str(user_info))
                     bot.send_action(recipient_id,'typing_on')
                     
