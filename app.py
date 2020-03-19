@@ -92,6 +92,9 @@ def receive_message():
                         send_message(recipient_id, tx)                        
                         button = Button(title='Arsenal', type='web_url', url=uu)
                         bot.send_button_message(recipient_id, text, button)
+                        assert type(result) is dict
+                        assert result.get('message_id') is not None
+                        assert result.get('recipient_id') is not None
                     else:
                         #response_sent_text = message['message']['text']
                         response_sent_text = find_songName(message['message']['text'])
