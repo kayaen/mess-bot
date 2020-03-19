@@ -84,7 +84,14 @@ def receive_message():
                         A maré, a maré, me leva ao céu</p>
                         <p><strong>A maré, a maré, me leva ao céu
                         A maré, a maré, me leva ao céu</strong></p>"""
+                        tx = tx.replace('<p>','_')
+                        tx = tx.replace('</p>','_')
+                        tx = tx.replace('<strong>','*')
+                        tx = tx.replace('</strong>','*')
+                        uu = 'http://capoeiralyrics.info/songs/a-mare-a-mare.html'
                         send_message(recipient_id, tx)                        
+                        button = Button(title='Arsenal', type='web_url', url=uu)
+                        bot.send_button_message(recipient_id, text, button)
                     else:
                         #response_sent_text = message['message']['text']
                         response_sent_text = find_songName(message['message']['text'])
