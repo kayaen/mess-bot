@@ -15,12 +15,15 @@ import random
 from flask import Flask, request
 from pymessenger.bot import Bot
 from pymessenger import Button
+from pymessenger import Element
 import os
 import urllib
 
 app = Flask(__name__)
-ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
-VERIFY_TOKEN = os.environ['VERIFY_TOKEN']
+ACCESS_TOKEN = 'EAADZA3ZB0wzgwBADZBeHCL6ezLFHRcwVSkP5DlxIeHmT8BXqZCmseHpNKW9OaZAZAjeky7cOCMg29tFiDQZCl0sPaxskOic3JnBZBGaiSvMxuvJ5ZAERHkD1qfcSISpBJ1JIc90HmD7zQO5UlZCnyZAR7V2rmaUnAoPjIDbzNc41FIbQgZDZD'
+VERIFY_TOKEN = '123qwe'
+#ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
+#VERIFY_TOKEN = os.environ['VERIFY_TOKEN']
 bot = Bot(ACCESS_TOKEN)
 
 def find_songName(keyW):
@@ -72,31 +75,99 @@ def receive_message():
                         buttons = []
                         button = Button(title='Arsenal', type='web_url', url='http://arsenal.com')
                         buttons.append(button)
-                        button = Button(title='Other', type='postback', payload='other')
+                        button = Button(title='Other', type='postback', payload='other--')
                         buttons.append(button)
+                        uu = 'http://capoeiralyrics.info/songs/a-mare-vazou-baixou.html'
+                        button = Button(title='Other', type='web_url', url=uu)
+                        buttons.append(button)                        
                         text = 'Select'
                         result = bot.send_button_message(recipient_id, text, buttons)
                         assert type(result) is dict
                         assert result.get('message_id') is not None
                         assert result.get('recipient_id') is not None
-                    elif 'w' == message['message']['text'].lower():
-#                        tx = """<p>A maré, a maré, me leva ao céu
-#                        A maré, a maré, me leva ao céu</p>
-#                        <p><strong>A maré, a maré, me leva ao céu
-#                        A maré, a maré, me leva ao céu</strong></p>"""
-#                        tx = tx.replace('<p>','_')
-#                        tx = tx.replace('</p>','_')
-#                        tx = tx.replace('<strong>','*')
-#                        tx = tx.replace('</strong>','*')
-#                        send_message(recipient_id, tx)                        
-                        text = 'Select'                        
-                        uu = 'http://capoeiralyrics.info/songs/a-mare-a-mare.html'
-                        button = Button(title='Arsenal', type='web_url', url=uu)
-                        result = bot.send_button_message(recipient_id, text, button)
-                        assert type(result) is dict
-                        assert result.get('message_id') is not None
-                        assert result.get('recipient_id') is not None
-                        send_message(recipient_id, str(result))                                                
+                    elif 'q' == message['message']['text'].lower():
+                        uu = 'http://capoeiralyrics.info/songs/a-mare-vazou-baixou.html'
+                        send_message(recipient_id, uu)                                          
+                    elif 'w' == message['message']['text'].lower():    
+                        imgurl = 'https://lh4.googleusercontent.com/-dZ2LhrpNpxs/AAAAAAAAAAI/AAAAAAAA1os/qrf-VeTVJrg/s0-c-k-no-ns/photo.jpg'
+                        elements = []
+                        element = Element(title="test", image_url=imgurl, subtitle="subtitle", item_url="http://arsenal.com")
+                        elements.append(element)                        
+                        bot.send_generic_message(recipient_id, elements)
+                    elif 'e' == message['message']['text'].lower():                        
+                        response = recipient_id
+                        bot.send_action(recipient_id,'typing_on')
+                        bot.send_text_message(recipient_id, response)
+                    elif 'd' == message['message']['text'].lower():   
+                        mm = {
+                                'text': 'hello ' + str(recipient_id)
+                            }
+                        payload = {
+                                'message': mm
+                            }
+                        response = send_info(recipient_id, payload)
+                        
+#                        bot.send_action(recipient_id,'typing_on')
+                        bot.send_text_message(recipient_id, response)     
+                    elif 'r' == message['message']['text'].lower():   
+                        mm = {
+                                "attachment":{
+                                  "type":"image", 
+                                  "payload":{
+                                    "url":"https://lh4.googleusercontent.com/-dZ2LhrpNpxs/AAAAAAAAAAI/AAAAAAAA1os/qrf-VeTVJrg/s0-c-k-no-ns/photo.jpg", 
+                                    "is_reusable": True
+                                  }
+                                }
+                            }
+                        payload = {
+                                'message': mm
+                            }
+                        response = send_info(recipient_id, payload)
+                    elif 't' == message['message']['text'].lower():   
+                        # https://developers.facebook.com/docs/messenger-platform/send-messages/quick-replies
+                        mm = {
+                                "text": "Pick a color:",
+                                "quick_replies":[
+                                  {
+                                    "content_type":"text",
+                                    "title":"Red",
+                                    "payload":"<POSTBACK_PAYLOAD>",
+                                    "image_url":"http://example.com/img/red.png"
+                                  },{
+                                    "content_type":"text",
+                                    "title":"Green",
+                                    "payload":"<POSTBACK_PAYLOAD>",
+                                    "image_url":"http://example.com/img/green.png"
+                                  }
+                                ]
+                            }
+                        payload = {
+                                "messaging_type": "RESPONSE",
+                                "message": mm
+                            }
+                        response = send_info(recipient_id, payload)
+                    
+                    elif 'y' == message['message']['text'].lower():   
+                        rr = get_info(recipient_id)
+                        print('name',rr['first_name'])
+                        print('last name',rr['last_name'])
+                        print('user id',rr['id'])
+                        print('profile pic',rr['profile_pic'])
+                    elif 'who' == message['message']['text'].lower():       
+                        rr = get_info(recipient_id)
+                        mm = {
+                                "attachment":{
+                                  "type":"image", 
+                                  "payload":{
+                                    "url":rr['profile_pic'], 
+                                    "is_reusable": True
+                                  }
+                                }
+                            }
+                        payload = {
+                                'message': mm
+                            }
+                        response = send_info(recipient_id, payload)
                     else:
                         #response_sent_text = message['message']['text']
                         response_sent_text = find_songName(message['message']['text'])
@@ -122,6 +193,27 @@ def verify_fb_token(token_sent):
         return request.args.get("hub.challenge")
     return 'Invalid verification token'
 
+
+import requests
+def get_info(recipient_id):
+    params = {}
+    params.update(bot.auth_args)
+    graph_url = 'https://graph.facebook.com'
+    request_endpoint = '{0}/{1}'.format(graph_url, recipient_id)
+#    print(request_endpoint)
+    response = requests.get(request_endpoint, params = params)
+#    print(response)
+    if response.status_code == 200:
+        return response.json()
+
+def send_info(recipient_id, payload):
+    payload['recipient'] = {
+            'id': recipient_id
+        }
+    payload['notification_type'] = "REGULAR"
+    result = bot.send_raw(payload)
+    print('result', result)
+    return result
 
 #chooses a random message to send to the user
 def get_message():
